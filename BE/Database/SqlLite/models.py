@@ -32,8 +32,8 @@ class Thread(Base):
     name = Column(String)
     userId = Column(String, ForeignKey("users.htw_mail"))
 
-    def __init__(self, name, userId):
-        self.id = uuid.uuid4()
+    def __init__(self, id, name, userId):
+        self.id = id
         self.createdAt = utc_now()
         self.name = name
         self.userId = userId

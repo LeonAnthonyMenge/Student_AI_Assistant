@@ -25,7 +25,6 @@ Authenticator = stauth.Authenticate(credentials, cookie_name='Streamlit', key="a
 
 email, authentication_status, username = Authenticator.login(':green[Login]', 'main')
 
-
 info, info1 = st.columns(2)
 
 

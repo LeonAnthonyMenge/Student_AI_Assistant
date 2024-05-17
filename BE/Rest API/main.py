@@ -1,4 +1,5 @@
 import base64
+import uuid
 
 from fastapi import FastAPI, Depends, HTTPException, status
 from sqlalchemy.orm import Session
@@ -135,14 +136,15 @@ async def add_step(step: base_models.Step, db: Session = Depends(get_db)):
 
 @app.post('/thread')
 async def get_or_create_thread(thread: base_models.Thread_incl_Steps, db: Session = Depends(get_db)):
+    thread_id = uuid.uuid4()
     new_thread = models.Thread(
+        id=thread_id,
         name=thread.name,
         userId=thread.userId,
     )
     db.add(new_thread)
     db.commit()
-    # TODO: Bessere Lösung finden
-    thread = db.query(models.Thread).filter(models.Thread.userId == new_thread.userId and models.Thread.name == new_thread.name)
+    thread = db.query(models.Thread).filter(models.Thread.id == thread_id)
     return thread
 
 @app.delete('/thread/delete/{thread_id}')
