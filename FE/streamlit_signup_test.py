@@ -84,7 +84,7 @@ def sign_up():
         if valid_email and valid_username and valid_password:
             hashed_password = stauth.Hasher([password2]).generate()
             hashed_htw_password = stauth.Hasher([htw_password]).generate()
-            status_code = add_user(email, username, hashed_password[0], hashed_htw_password[0])
+            status_code = asyncio.run(add_user(email, username, hashed_password[0], hashed_htw_password[0]))
             if status_code == 200:
                 st.success('Account created successfully!!')
             elif status_code == 409:

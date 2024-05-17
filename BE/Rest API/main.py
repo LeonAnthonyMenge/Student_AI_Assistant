@@ -24,6 +24,17 @@ def get_db():
     finally:
         db.close()
 
+@app.delete("/threadsdelete")
+def delete_all_threads():
+    try:
+        db = SessionLocal()
+        threads = db.query(models.Thread).all()
+        for thread in threads:
+            db.query(models.Thread).filter(models.Thread.id == thread.id).delete()
+            db.delete(thread)
+        db.commit()
+    finally:
+        db.close()
 
 @app.post("/users/authenticate")
 async def get_user(login: base_models.User_login, db: Session = Depends(get_db)):
@@ -135,8 +146,8 @@ async def add_step(step: base_models.Step, db: Session = Depends(get_db)):
 
 
 @app.post('/thread')
-async def get_or_create_thread(thread: base_models.Thread_incl_Steps, db: Session = Depends(get_db)):
-    thread_id = uuid.uuid4()
+async def get_or_create_thread(thread: base_models.Thread, db: Session = Depends(get_db)):
+    thread_id = str(uuid.uuid4())
     new_thread = models.Thread(
         id=thread_id,
         name=thread.name,
@@ -144,7 +155,7 @@ async def get_or_create_thread(thread: base_models.Thread_incl_Steps, db: Sessio
     )
     db.add(new_thread)
     db.commit()
-    thread = db.query(models.Thread).filter(models.Thread.id == thread_id)
+    thread = db.query(models.Thread).filter(models.Thread.id == thread_id).first()
     return thread
 
 @app.delete('/thread/delete/{thread_id}')
