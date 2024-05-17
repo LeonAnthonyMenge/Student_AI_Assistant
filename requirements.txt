@@ -1,0 +1,13 @@
+sqlalchemy~=2.0.30
+requests~=2.31.0
+literalai~=0.0.509
+typing~=3.7.4.3
+pydantic~=2.7.1
+uvicorn~=0.25.0
+llama_index
+colorama~=0.4.6
+torch
+fastapi~=0.110.3
+langchain
+streamlit
+streamlit-authenticator==0.2.2
