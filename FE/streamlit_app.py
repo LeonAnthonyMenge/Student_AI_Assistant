@@ -15,6 +15,9 @@ if 'messages' not in st.session_state:
 if 'selected_thread_id' not in st.session_state:
     st.session_state.selected_thread_id = None
 
+if 'selected_topic' not in st.session_state:
+    st.session_state.selected_topic = "general help"
+
 
 async def get_threads():
     res = requests.get(f"{base_url}/threads/{email}")
@@ -93,6 +96,14 @@ elif authentication_status:
     with st.sidebar:
         Authenticator.logout(":red[Logout]")
         st.subheader("Chats")
+
+        # Help Agent to use the right tools
+        st.session_state.selected_topic = st.selectbox(
+            "select a topic:",
+            ("general help", "coding", "sql", "psychology"),
+            index=0
+        )
+
         for thread in threads:
             if st.button(label=thread["name"], use_container_width=True):
                 get_messages(thread["id"])
@@ -121,7 +132,10 @@ elif authentication_status:
         with st.chat_message("assistant"):
             message_placeholder = st.empty()
             with st.spinner("Thinking..."):
-                full_response = st.write_stream(get_ai_answer(prompt))
+                question = (f'I am a student and need help about this topic: {st.session_state.selected_topic}'
+                            f'Here is my prompt: {prompt}')
+
+                full_response = st.write_stream(get_ai_answer(question))
         status = asyncio.run(add_message({"role": "assistant", "content": full_response}))
         if status != 200:
             st.warning("Could not save message")
