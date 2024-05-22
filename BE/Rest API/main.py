@@ -8,7 +8,7 @@ import base_models
 from BE.Database.SqlLite.database import SessionLocal, engine
 from BE.Database.SqlLite import models
 from literalai.helper import utc_now
-from BE.AI.llm import llm
+from BE.AI.llm import agent
 
 app = FastAPI()
 now = utc_now()
@@ -131,7 +131,7 @@ async def delete_thread(thread_id, db: Session = Depends(get_db)):
 
 @app.post('/chat')
 async def post_message(message: base_models.Message):
-    answer = llm.complete(message.content)
+    answer = agent.query(message.content)
     return answer
 
 

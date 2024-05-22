@@ -1,5 +1,4 @@
 import json
-import random
 import time
 
 import requests
@@ -48,7 +47,7 @@ def get_ai_answer(prompt):
         "thread_id": ""
     }
     res = requests.post(f'{base_url}/chat', json=body)
-    answer = json.loads(res.content)['text'].split()
+    answer = json.loads(res.content)['response'].split()
 
     for word in answer:
         yield word + " "
