@@ -4,8 +4,9 @@ import requests
 import streamlit as st
 import re
 import streamlit_authenticator as stauth
-from fastapi import status
 import asyncio
+
+base_url = 'http://localhost:4000'
 
 
 def validate_email(email):
@@ -34,7 +35,7 @@ def validate_username(username):
     return False
 
 async def get_users():
-    res = requests.get('http://localhost:4000/user')
+    res = requests.get(f'{base_url}/user')
     users = json.loads(res.content)
     return users
 async def add_user(email: str, username: str, password: str, htw_password: str):
@@ -44,7 +45,7 @@ async def add_user(email: str, username: str, password: str, htw_password: str):
         "password": password,
         "htw_password": htw_password
     }
-    res = requests.post("http://localhost:4000/user/registrate", json=body)
+    res = requests.post(f"{base_url}/user/registrate", json=body)
     print(res.status_code)
     return res.status_code
 

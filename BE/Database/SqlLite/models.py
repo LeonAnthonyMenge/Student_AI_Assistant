@@ -16,7 +16,7 @@ class User(Base):
     createdAt = Column(String, nullable=False)
     htw_password = Column(String, nullable=False)
 
-    def __init__(self,htw_mail, username, password, createdAt, htw_password):
+    def __init__(self, htw_mail, username, password, createdAt, htw_password):
         self.username = username
         self.password = password
         self.createdAt = createdAt
@@ -40,26 +40,22 @@ class Thread(Base):
 
     user = relationship("User", backref="threads")
 
-#TODO: change from chainlit to streamlit requirements
-class Step(Base):
-    __tablename__ = "steps"
+
+# TODO: change from chainlit to streamlit requirements
+class Message(Base):
+    __tablename__ = "messages"
 
     id = Column(String, primary_key=True)
-    name = Column(String, nullable=False)  # Not Null constraint
-    type = Column(String, nullable=False)  # Not Null constraint
-    threadId = Column(String, ForeignKey("threads.id"), nullable=False)  # Not Null constraint
-    disableFeedback = Column(Boolean, nullable=False)  # Not Null constraint
-    streaming = Column(Boolean, nullable=False)  # Not Null constraint
-    waitForAnswer = Column(Boolean)
-    isError = Column(Boolean)
-    output = Column(Text)
-    createdAt = Column(Text)
-    start = Column(Text)
-    end = Column(Text)
-    generation = Column(JSON)
-    language = Column(Text)
-    indent = Column(Integer)  # Use Integer instead of INT
+    content = Column(String, nullable=False)
+    role = Column(String, nullable=False)
+    threadId = Column(String, ForeignKey("threads.id"), nullable=False)
+    createdAt = Column(String)
 
-    thread = relationship("Thread", backref="steps")
+    def __init__(self, content, role, thread_id):
+        self.id = str(uuid.uuid4())
+        self.created_at = utc_now()
+        self.content = content
+        self.role = role
+        self.threadId = thread_id
 
-
+    thread = relationship("Thread", backref="messages")
