@@ -1,22 +1,34 @@
-from sqlalchemy import Column, JSON, String, ForeignKey, Text, Boolean, Integer, ARRAY
+from sqlalchemy import Column, JSON, String, ForeignKey, ARRAY
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
 from literalai.helper import utc_now
 from sqlalchemy.orm import relationship
 
-Base = declarative_base()
+from BE.Database.SqlLite.database import SessionLocal
 
+Base = declarative_base()
+db = SessionLocal()
 
 class User(Base):
     __tablename__ = "users"
-
-    htw_mail = Column(String, primary_key=True, nullable=False, index=True)
+    id = Column(String, primary_key=True)
+    htw_mail = Column(String, unique=True, nullable=False, index=True)
     username = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)
     createdAt = Column(String, nullable=False)
     htw_password = Column(String, nullable=False)
+    mail_list = Column(JSON, nullable=True, default=list)
+
+    def add_mail_timestamp(self, timestamp: str):
+        user = db.merge(self)
+        if user.mail_list is None:
+            user.mail_list = []
+        user.mail_list.append(timestamp)
+        db.commit()
+        db.refresh(user)
 
     def __init__(self, htw_mail, username, password, createdAt, htw_password):
+        self.id = str(uuid.uuid4())
         self.username = username
         self.password = password
         self.createdAt = createdAt
@@ -59,3 +71,13 @@ class Message(Base):
         self.threadId = thread_id
 
     thread = relationship("Thread", backref="messages")
+
+def add_mail_timestamp_to_user(htw_mail, timestamp):
+    try:
+        user = db.query(User).filter(User.htw_mail == htw_mail).first()
+        if user:
+            user.add_mail_timestamp(timestamp)
+            db.commit()
+            db.refresh(user)
+    finally:
+        db.close()

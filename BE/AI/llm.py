@@ -6,6 +6,7 @@ from langchain_community.utilities import WikipediaAPIWrapper, StackExchangeAPIW
 from langchain_community.tools import YouTubeSearchTool, DuckDuckGoSearchRun, WikipediaQueryRun
 from langchain_experimental.utilities import PythonREPL
 import requests
+from BE.Database.chromadb.chroma_database import query_email_collection
 #Apple Silicon Chip uses: mps
 #https://pytorch.org/get-started/locally/
 torch.set_default_device('mps')
@@ -25,6 +26,9 @@ python_execute = PythonREPL()
 # StackOverflow
 stackoverflow = StackExchangeAPIWrapper()
 
+
+def chromadb_emails(query_texts, n_results, name):
+    return query_email_collection(query_texts, n_results, name)
 def wikipedia(prompt):
     return wiki.run(prompt)
 
@@ -79,13 +83,14 @@ wikipedia_tool = FunctionTool.from_defaults(
 youtube_tool = FunctionTool.from_defaults(
     youtube,
     name="YouTube",
-    description="A tool for loading and querying video urls from Youtube. Make sure to forward this information to the user."
+    description="A tool for loading and querying video urls from Youtube. Make sure to forward the urls to "
+                "the user as they are with some text around."
 )
 
 stackexchange_tool = FunctionTool.from_defaults(
     stackexchange,
     name="StackOverflow",
-    description="A tool for loading and querying Results from Stackoverflow."
+    description="A tool for loading and querying Results from Stackoverflow. Takes Error Message as Input"
 )
 
 duckduckgo_search_tool = FunctionTool.from_defaults(
@@ -107,11 +112,29 @@ get_repository_tool = FunctionTool.from_defaults(
                 "input and returns information about the repository."
 )
 
+vektor_based_emaildb = FunctionTool.from_defaults(
+    query_email_collection,
+    name="get E-mails from User",
+    description="""
+    Query the email collection in the vector database to retrieve the most relevant results based on query texts.
+
+    Parameters:
+    query_texts (list of str): A list of text queries for which the most relevant documents are to be retrieved.
+    n_results (int): The number of top relevant results to return for each query.
+    name (str): The name of the collection to query within the vector database.
+
+    Returns:
+    dict: A dictionary containing the query results, with keys corresponding to the query texts and values being lists of the top relevant documents."""
+
+)
+
+
 tools = [
     perform_code_task,
+    vektor_based_emaildb,
     perform_sql_task,
     wikipedia_tool,
-    #youtube_tool,
+    youtube_tool,
     #stackexchange,
     duckduckgo_search_tool,
     python_repl_tool,

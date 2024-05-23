@@ -34,3 +34,5 @@ llama_cpp_python==0.2.58
 llamaindex-py-client==0.1.15
 langchain_community
 langchain_experimental
+imbox
+chromadb

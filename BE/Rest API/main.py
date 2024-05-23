@@ -1,7 +1,7 @@
 import base64
 import uuid
 
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends, HTTPException, status, BackgroundTasks
 from sqlalchemy.orm import Session
 import uvicorn
 import base_models
@@ -9,11 +9,13 @@ from BE.Database.SqlLite.database import SessionLocal, engine
 from BE.Database.SqlLite import models
 from literalai.helper import utc_now
 from BE.AI.llm import agent
+from BE.Services.mailservice import initialize, add_mails_to_db
 
 app = FastAPI()
 now = utc_now()
 
 models.Base.metadata.create_all(bind=engine)
+initialize()
 
 
 def get_db():
@@ -38,20 +40,20 @@ def delete_all_threads():
 
 
 @app.post("/users/authenticate")
-async def get_user(login: base_models.User_login, db: Session = Depends(get_db)):
+async def get_user(login: base_models.User_login, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.username == login.username).first()
     if user is None:
         raise HTTPException(401, detail="Invalid username or password")
     decoded_password = base64.b85decode(login.password.encode('utf-8')).decode('utf-8')
-    print(decoded_password)
     verified = (user.password == decoded_password)
     if not verified:
         raise HTTPException(401, detail="Invalid username or password")
+    background_tasks.add_task(add_mails_to_db(user))
     return {"message": "User", "data": user}
 
 
 @app.post("/user/registrate")
-async def create_user(user: base_models.User, db: Session = Depends(get_db)):
+async def create_user(user: base_models.User, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     existing_user = db.query(models.User).filter(models.User.htw_mail == user.htw_mail).first()
 
     if existing_user:
@@ -62,17 +64,17 @@ async def create_user(user: base_models.User, db: Session = Depends(get_db)):
     db.add(new_user)
     db.commit()
 
+    #background_tasks.add_task(add_mails_to_db(user.htw_mail, user.htw_password))
+
     return status.HTTP_201_CREATED
 
 
-@app.get('/user/{identifier}')
-async def get_user_by_identifier(identifier: str, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter(models.User.htw_mail == identifier).first()
+@app.get('/user/{mail}')
+async def get_user_by_identifier(mail: str, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.htw_mail == mail).first()
     if user is None:
         raise HTTPException(401, detail="Invalid Identifier")
-    print(user)
-    response = {'message': 'User', 'data': user}
-    return response
+    return user
 
 
 @app.get('/user')

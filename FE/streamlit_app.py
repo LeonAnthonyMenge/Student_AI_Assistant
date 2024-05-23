@@ -22,6 +22,9 @@ async def get_threads():
     res = requests.get(f"{base_url}/threads/{email}")
     return json.loads(res.content)
 
+async def get_user():
+    res = requests.get(f"{base_url}/user/{email}")
+    return json.loads(res.content)
 
 def get_messages(thread_id):
     st.session_state.selected_thread_id = thread_id
@@ -88,6 +91,7 @@ if not authentication_status:
     sign_up()
 elif authentication_status:
     threads = asyncio.run(get_threads())
+    identical_user = asyncio.run(get_users())
     if len(st.session_state.messages) == 0:
         st.success("Chat with me!")
 
@@ -131,9 +135,11 @@ elif authentication_status:
         with st.chat_message("assistant"):
             message_placeholder = st.empty()
             with st.spinner("Thinking..."):
-                question = (f'I am a student and need help about this topic: {st.session_state.selected_topic}'
+                identical_user = identical_user[0]
+                print(identical_user)
+                question = (f'I am a student (this is my id: {identical_user["id"]}) and need help about this topic: {st.session_state.selected_topic}'
                             f'Here is my prompt: {prompt}')
-
+                print(question)
                 full_response = st.write_stream(get_ai_answer(question))
         status = asyncio.run(add_message({"role": "assistant", "content": full_response}))
         if status != 200:
