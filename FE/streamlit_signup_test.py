@@ -1,5 +1,5 @@
 import json
-
+import base64
 import requests
 import streamlit as st
 import re
@@ -84,8 +84,8 @@ def sign_up():
 
         if valid_email and valid_username and valid_password:
             hashed_password = stauth.Hasher([password2]).generate()
-            hashed_htw_password = stauth.Hasher([htw_password]).generate()
-            status_code = asyncio.run(add_user(email, username, hashed_password[0], hashed_htw_password[0]))
+            encoded_htw_password = base64.b64encode(htw_password.encode('utf-8'))
+            status_code = asyncio.run(add_user(email, username, hashed_password[0], encoded_htw_password.decode()))
             if status_code == 200:
                 st.success('Account created successfully!!')
             elif status_code == 409:
