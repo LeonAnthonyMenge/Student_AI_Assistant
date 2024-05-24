@@ -53,7 +53,6 @@ class Thread(Base):
     user = relationship("User", backref="threads")
 
 
-# TODO: change from chainlit to streamlit requirements
 class Message(Base):
     __tablename__ = "messages"
 
@@ -71,13 +70,3 @@ class Message(Base):
         self.threadId = thread_id
 
     thread = relationship("Thread", backref="messages")
-
-def add_mail_timestamp_to_user(htw_mail, timestamp):
-    try:
-        user = db.query(User).filter(User.htw_mail == htw_mail).first()
-        if user:
-            user.add_mail_timestamp(timestamp)
-            db.commit()
-            db.refresh(user)
-    finally:
-        db.close()

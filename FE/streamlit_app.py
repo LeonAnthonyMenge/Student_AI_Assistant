@@ -22,6 +22,10 @@ async def get_threads():
     res = requests.get(f"{base_url}/threads/{email}")
     return json.loads(res.content)
 
+async def delete_thread(thread_id):
+    res = requests.delete(f"{base_url}/thread/delete/{thread_id}")
+    return res.status_code
+
 async def get_user():
     res = requests.get(f"{base_url}/user/{email}")
     return json.loads(res.content)
@@ -106,11 +110,16 @@ elif authentication_status:
             ("general help", "coding", "sql", "psychology"),
             index=0
         )
-
+        col1, col2 = st.columns([1, 1])
         for thread in threads:
-            if st.button(label=thread["name"], use_container_width=True):
-                get_messages(thread["id"])
-                st.rerun()
+            with col1:
+                if st.button(label=thread["name"], use_container_width=True, key=f'thread_{thread["id"]}'):
+                    get_messages(thread["id"])
+                    st.rerun()
+            with col2:
+                if st.button(label=":wastebasket:", type="primary", key=f'delete_{thread["id"]}'):
+                    asyncio.run(delete_thread(thread["id"]))
+                    st.rerun()
 
         chat_name = st.text_input(label="Create a new Chat", placeholder="Enter a Chat name")
 

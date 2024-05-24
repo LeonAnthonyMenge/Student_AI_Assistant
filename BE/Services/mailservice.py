@@ -8,7 +8,6 @@ from BE.Database.SqlLite import models
 from BE.Database.chromadb.chroma_database import add_data
 from bs4 import BeautifulSoup
 from BE.Database.SqlLite.database import SessionLocal, engine
-from BE.Database.SqlLite.models import add_mail_timestamp_to_user
 import base64
 
 models.Base.metadata.create_all(bind=engine)
@@ -20,7 +19,6 @@ def initialize():
     users = db.query(models.User).all()
     for user in users:
         try:
-
             add_mails_to_db(user)
             print(f'Added: {user.htw_mail}')
         except Exception as e:
@@ -68,7 +66,6 @@ def add_mails_to_db(user):
                 }
                 if metadata['date'] not in user.mail_list and metadata['date'] != '':
                     user.add_mail_timestamp(metadata['date'])
-                    add_mail_timestamp_to_user(user.htw_mail, metadata['date'])
                     metadata_list.append(metadata)
                     content = get_content(message)
                     doc_list.append(content)

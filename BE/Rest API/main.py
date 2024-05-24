@@ -15,6 +15,7 @@ app = FastAPI()
 now = utc_now()
 
 models.Base.metadata.create_all(bind=engine)
+
 initialize()
 
 
@@ -124,7 +125,6 @@ async def get_or_create_thread(thread: base_models.Thread, db: Session = Depends
 async def delete_thread(thread_id, db: Session = Depends(get_db)):
     print('in delete')
     thread = db.query(models.Thread).filter(models.Thread.id == thread_id).first()
-    db.query(models.Step).filter(models.Step.threadId == thread_id).delete()
 
     if thread:
         db.delete(thread)
