@@ -8,7 +8,7 @@ import base_models
 from BE.Database.SqlLite.database import SessionLocal, engine
 from BE.Database.SqlLite import models
 from literalai.helper import utc_now
-from BE.AI.llm import agent
+from BE.AI.llm import agent, llama3
 from BE.Services.mailservice import initialize, add_mails_to_db
 
 app = FastAPI()
@@ -65,7 +65,7 @@ async def create_user(user: base_models.User, background_tasks: BackgroundTasks,
     db.add(new_user)
     db.commit()
 
-    #background_tasks.add_task(add_mails_to_db(user.htw_mail, user.htw_password))
+    # background_tasks.add_task(add_mails_to_db(user.htw_mail, user.htw_password))
 
     return status.HTTP_201_CREATED
 
@@ -108,7 +108,7 @@ async def add_step(message: base_models.Message, db: Session = Depends(get_db)):
 
 
 @app.post('/thread')
-async def get_or_create_thread(thread: base_models.Thread, db: Session = Depends(get_db)):
+async def create_thread(thread: base_models.Thread, db: Session = Depends(get_db)):
     thread_id = str(uuid.uuid4())
     new_thread = models.Thread(
         id=thread_id,
@@ -121,12 +121,35 @@ async def get_or_create_thread(thread: base_models.Thread, db: Session = Depends
     return thread
 
 
+@app.post('/thread/auto_create')
+async def auto_create_thread(thread: base_models.Thread, db: Session = Depends(get_db)):
+    heading = str(llama3.complete(f"""<|begin_of_text|><|start_header_id|>system<|end_header_id|>You are an chat backend assistant. 
+                        Your Task is it to create a short Headline for user 
+                        prompts. The headline can have maximum 2 words<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        {thread.name}<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""))
+    print(heading)
+    thread_id = str(uuid.uuid4())
+    new_thread = models.Thread(
+        id=thread_id,
+        name=heading,
+        userId=thread.userId,
+    )
+    db.add(new_thread)
+    db.commit()
+    thread = db.query(models.Thread).filter(models.Thread.id == thread_id).first()
+    return thread
+
+
 @app.delete('/thread/delete/{thread_id}')
-async def delete_thread(thread_id, db: Session = Depends(get_db)):
+async def delete_thread(thread_id: str, db: Session = Depends(get_db)):
     print('in delete')
     thread = db.query(models.Thread).filter(models.Thread.id == thread_id).first()
 
     if thread:
+        messages = db.query(models.Message).filter(models.Message.threadId == thread_id).all()
+        if messages:
+            for message in messages:
+                db.delete(message)
         db.delete(thread)
         db.commit()
 
