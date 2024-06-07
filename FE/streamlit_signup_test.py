@@ -35,10 +35,8 @@ def validate_username(username):
     return False
 
 async def get_users():
-    print('213')
     res = requests.get(f'{base_url}/user')
     users = json.loads(res.content)
-    print('users')
     return users
 async def add_user(email: str, username: str, password: str, htw_password: str):
     body = {

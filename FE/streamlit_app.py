@@ -55,15 +55,18 @@ async def add_message(message: dict):
 def get_ai_answer(user_input):
     body = {
         "content": user_input,
-        "role": "",
-        "thread_id": ""
+        "role": "User",
+        "thread_id": st.session_state.selected_thread_id
     }
     res = requests.post(f'{base_url}/chat', json=body)
-    answer = str(res.json())
+    res.raise_for_status()
+    answer = str(json.loads(res.content)['response'])
 
-    for word in answer:
-        yield word + " "
-        time.sleep(0.05)
+    return answer
+
+    #for word in answer:
+     #   yield word + " "
+      #  time.sleep(0.05)
 
 
 def create_thread(chat_name):
@@ -98,7 +101,7 @@ credentials = {'usernames': {}}
 for index in range(len(emails)):
     credentials['usernames'][usernames[index]] = {'name': emails[index], 'password': passwords[index]}
 
-Authenticator = stauth.Authenticate(credentials, cookie_name='Streamlit', key="abcd", cookie_expiry_days=0)
+Authenticator = stauth.Authenticate(credentials, cookie_name='Streamlit', key="abcd", cookie_expiry_days=5)
 
 email, authentication_status, username = Authenticator.login(':green[Login]', 'main')
 
@@ -107,7 +110,6 @@ info, info1 = st.columns(2)
 if not authentication_status:
     sign_up()
 elif authentication_status:
-    print('logged in')
     threads = asyncio.run(get_threads())
     identical_user = asyncio.run(get_users())
     if len(st.session_state.messages) == 0:
@@ -170,7 +172,8 @@ elif authentication_status:
                 question = (
                     f'I am a student (this is my id: {identical_user["id"]}) and need help about this topic: {st.session_state.selected_topic}'
                     f'Here is my prompt: {prompt}')
-                full_response = st.write_stream(get_ai_answer(question))
-        status = asyncio.run(add_message({"role": "assistant", "content": full_response}))
+                answer = get_ai_answer(question)
+                full_response = st.write(answer)
+        status = asyncio.run(add_message({"role": "assistant", "content": answer}))
         if status != 200:
             st.warning("Could not save message")
