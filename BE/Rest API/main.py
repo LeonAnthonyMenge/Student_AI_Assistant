@@ -165,8 +165,11 @@ async def post_message(message: base_models.Message, db: Session = Depends(get_d
         chat_history = chat_history[-3:]
 
     chat_history_str = " ".join(chat_history)
-
-    answer = agent.query(chat_history_str)
+    try:
+        answer = agent.query(chat_history_str)
+    except Exception as e:
+        print(e)
+        answer = llama3.complete(chat_history_str)
     return answer
 
 

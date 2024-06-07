@@ -20,22 +20,37 @@ if 'selected_topic' not in st.session_state:
 
 async def get_threads():
     res = requests.get(f"{base_url}/threads/{email}")
+
+    if res.status_code == 500:
+        res = requests.get(f"{base_url}/threads/{email}")
+
     return json.loads(res.content)
 
 
 async def delete_thread(thread_id):
     res = requests.delete(f"{base_url}/thread/delete/{thread_id}")
+
+    if res.status_code == 500:
+        res = requests.delete(f"{base_url}/thread/delete/{thread_id}")
+
     return res.status_code
 
 
 async def get_user():
     res = requests.get(f"{base_url}/user/{email}")
+
+    if res.status_code == 500:
+        res = requests.get(f"{base_url}/user/{email}")
+
     return json.loads(res.content)
 
 
 def get_messages(thread_id):
     st.session_state.selected_thread_id = thread_id
     res = requests.get(f'{base_url}/messages/{thread_id}')
+
+    if res.status_code == 500:
+        res = requests.get(f'{base_url}/messages/{thread_id}')
 
     st.session_state.messages = json.loads(res.content)
 
@@ -49,6 +64,10 @@ async def add_message(message: dict):
         "thread_id": thread_id
     }
     res = requests.post(f'{base_url}/message', json=body)
+
+    if res.status_code == 500:
+        res = requests.post(f'{base_url}/message', json=body)
+
     return res.status_code
 
 
@@ -59,7 +78,10 @@ def get_ai_answer(user_input):
         "thread_id": st.session_state.selected_thread_id
     }
     res = requests.post(f'{base_url}/chat', json=body)
-    res.raise_for_status()
+
+    if res.status_code == 500:
+        res = requests.post(f'{base_url}/chat', json=body)
+
     answer = str(json.loads(res.content)['response'])
 
     return answer
@@ -75,6 +97,10 @@ def create_thread(chat_name):
         "userId": email
     }
     res = requests.post(f'{base_url}/thread', json=body)
+
+    if res.status_code == 500:
+        res = requests.post(f'{base_url}/thread', json=body)
+
     return asyncio.run(get_threads())
 
 
@@ -84,6 +110,10 @@ async def auto_create_thread(user_input):
         "userId": email
     }
     res = requests.post(f'{base_url}/thread/auto_create', json=body)
+
+    if res.status_code == 500:
+        res = requests.post(f'{base_url}/thread/auto_create', json=body)
+
     return json.loads(res.content)
 
 
