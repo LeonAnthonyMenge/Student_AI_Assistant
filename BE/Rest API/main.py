@@ -124,8 +124,9 @@ async def create_thread(thread: base_models.Thread, db: Session = Depends(get_db
 @app.post('/thread/auto_create')
 async def auto_create_thread(thread: base_models.Thread, db: Session = Depends(get_db)):
     heading = str(llama3.complete(f"""<|begin_of_text|><|start_header_id|>system<|end_header_id|>You are an chat backend assistant. 
-                        Your Task is it to create a short Headline for user 
-                        prompts. The headline can have maximum 2 words<|eot_id|><|start_header_id|>user<|end_header_id|>
+                        Your Task is it to create a short Headline for user prompts which can be used as a headline for the chat. 
+                        The headline can have maximum 2 words. Important: Do not answer the question. Only create the Headline!
+                        <|eot_id|><|start_header_id|>user<|end_header_id|>
                         {thread.name}<|eot_id|><|start_header_id|>assistant<|end_header_id|>"""))
     print(heading)
     thread_id = str(uuid.uuid4())
@@ -142,7 +143,6 @@ async def auto_create_thread(thread: base_models.Thread, db: Session = Depends(g
 
 @app.delete('/thread/delete/{thread_id}')
 async def delete_thread(thread_id: str, db: Session = Depends(get_db)):
-    print('in delete')
     thread = db.query(models.Thread).filter(models.Thread.id == thread_id).first()
 
     if thread:
@@ -155,8 +155,18 @@ async def delete_thread(thread_id: str, db: Session = Depends(get_db)):
 
 
 @app.post('/chat')
-async def post_message(message: base_models.Message):
-    answer = agent.query(message.content)
+async def post_message(message: base_models.Message, db: Session = Depends(get_db)):
+    messages = db.query(models.Message).filter(models.Message.threadId == message.thread_id).all()
+    chat_history = []
+    for mes in messages:
+        chat_history.append(f'{{role: {mes.role}, content: {mes.content}}}')
+
+    if len(chat_history) >= 3:
+        chat_history = chat_history[-3:]
+
+    chat_history_str = " ".join(chat_history)
+
+    answer = agent.query(chat_history_str)
     return answer
 
 

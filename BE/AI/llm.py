@@ -142,5 +142,5 @@ tools = [
 ]
 
 
-agent = ReActAgent.from_tools(tools, llm=llama3, verbose=True, context=context)
+agent = ReActAgent.from_tools(tools, llm=llama3, verbose=True, context=context, max_iterations=30)
 

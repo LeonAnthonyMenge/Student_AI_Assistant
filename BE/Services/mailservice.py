@@ -70,8 +70,7 @@ def add_mails_to_db(user):
                     content = get_content(message)
                     doc_list.append(content)
                     id_list.append(str(uuid.uuid4()))
-                else:
-                    print(f'Already in: {message["Message-ID"]}')
+
             except Exception as e:
                 print(f'Error processing message {i}: {e}')
         add_data(doc_list, metadata_list, id_list, user.id)
