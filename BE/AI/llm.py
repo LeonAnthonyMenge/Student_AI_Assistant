@@ -1,4 +1,6 @@
 import torch
+from BE.AI.prompts import general_prompt, coding_prompt
+from BE.Services.Pdf_service.query_data import pdf_ai
 from llama_index.llms.ollama import Ollama
 from llama_index.core.tools import FunctionTool
 from llama_index.core.agent import ReActAgent
@@ -15,9 +17,6 @@ llama3 = Ollama(model="llama3:instruct", request_timeout=100.0)
 codellama = Ollama(model="codellama:13b", request_timeout=50.0)
 sqlcoder = Ollama(model="sqlcoder:latest", request_timeout=50.0)
 
-context = """You are a Student Assistant. Your primary task is to help Students to get through their studies as easy as possible.
-             In order to help the students with their general study questions you have access to a bunch of tools. You have to make
-             sure to forward your findings from the tools to the user. If you are able to answer without further tools do so."""
 
 wiki = WikipediaQueryRun(api_wrapper=WikipediaAPIWrapper())
 you_tube = YouTubeSearchTool()
@@ -129,18 +128,32 @@ vektor_based_emaildb = FunctionTool.from_defaults(
 )
 
 
-tools = [
-    perform_code_task,
+general_tools = [
     vektor_based_emaildb,
-    perform_sql_task,
     wikipedia_tool,
     youtube_tool,
-    #stackexchange,
-    duckduckgo_search_tool,
+    duckduckgo_search_tool
+]
+
+
+general_agent = ReActAgent.from_tools(tools=general_tools, llm=llama3, verbose=True, context=general_prompt, max_iterations=30)
+
+coding_tools = [
+    perform_code_task,
+    perform_sql_task,
     python_repl_tool,
     get_repository_tool
 ]
 
+coding_agent = ReActAgent.from_tools(tools=coding_tools, llm=codellama, verbose=True, context=coding_prompt, max_iterations=30)
 
-agent = ReActAgent.from_tools(tools, llm=llama3, verbose=True, context=context, max_iterations=30)
+def get_agent(agent_name: str):
+    if agent_name == "coding":
+        return coding_agent
+    elif agent_name == "psychology":
+        return pdf_ai
+    elif agent_name == "sql":
+        return coding_agent
+    else:
+        return general_agent
 

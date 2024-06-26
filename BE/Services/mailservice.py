@@ -45,7 +45,7 @@ def add_mails_to_db(user):
         e_mail = user.htw_mail
 
         imbox = Imbox(mail_server, username=e_mail, password=pw, ssl=True, ssl_context=None, starttls=False)
-        inbox_messages_received_after = imbox.messages(date__gt=datetime.date(2024, 5, 15))
+        inbox_messages_received_after = imbox.messages(date__gt=datetime.date(2024, 6, 20))
 
         doc_list = []
         id_list = []
