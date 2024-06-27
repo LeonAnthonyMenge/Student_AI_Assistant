@@ -2,13 +2,14 @@ import base64
 import uuid
 
 from fastapi import FastAPI, Depends, HTTPException, status, BackgroundTasks
+from openai import BaseModel
 from sqlalchemy.orm import Session
 import uvicorn
 import base_models
 from BE.Database.SqlLite.database import SessionLocal, engine
 from BE.Database.SqlLite import models
 from literalai.helper import utc_now
-from BE.AI.llm import agent, llama3
+from BE.AI.llm import get_agent, llama3, coding_agent
 from BE.Services.mailservice import initialize, add_mails_to_db
 
 app = FastAPI()
@@ -25,6 +26,7 @@ def get_db():
         yield db
     finally:
         db.close()
+
 
 
 @app.delete("/threadsdelete")
@@ -155,22 +157,25 @@ async def delete_thread(thread_id: str, db: Session = Depends(get_db)):
 
 
 @app.post('/chat')
-async def post_message(message: base_models.Message, db: Session = Depends(get_db)):
+async def post_message(message: base_models.AI_Message, db: Session = Depends(get_db)):
     messages = db.query(models.Message).filter(models.Message.threadId == message.thread_id).all()
     chat_history = []
     for mes in messages:
-        chat_history.append(f'{{role: {mes.role}, content: {mes.content}}}')
+        chat_history.append(str(f"{{role: {mes.role}, content: {mes.content}}}"))
 
     if len(chat_history) >= 3:
         chat_history = chat_history[-3:]
 
     chat_history_str = " ".join(chat_history)
+    agent = get_agent(message.topic)
     try:
         answer = agent.query(chat_history_str)
     except Exception as e:
         print(e)
         answer = llama3.complete(chat_history_str)
+        print("llama")
     return answer
+
 
 
 if __name__ == "__main__":

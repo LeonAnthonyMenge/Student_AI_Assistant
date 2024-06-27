@@ -23,3 +23,11 @@ class Message(BaseModel):
     content: str
     role: str
     thread_id: str
+
+
+class AI_Message(BaseModel):
+    content: str
+    topic: str
+    user_id: str
+    role: str
+    thread_id: str

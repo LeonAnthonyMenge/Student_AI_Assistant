@@ -17,15 +17,21 @@ if 'selected_thread_id' not in st.session_state:
 if 'selected_topic' not in st.session_state:
     st.session_state.selected_topic = "general help"
 
+if 'mail' not in st.session_state:
+    st.session_state.mail = ""
+
 
 async def get_threads():
-    res = requests.get(f"{base_url}/threads/{email}")
+    res = requests.get(f"{base_url}/threads/{ st.session_state.mail}")
 
     if res.status_code == 500:
-        res = requests.get(f"{base_url}/threads/{email}")
+        res = requests.get(f"{base_url}/threads/{ st.session_state.mail}")
 
     return json.loads(res.content)
 
+async def get_user_by_email():
+    res = requests.get(f"{base_url}//user/{ st.session_state.mail}")
+    return res.content
 
 async def delete_thread(thread_id):
     res = requests.delete(f"{base_url}/thread/delete/{thread_id}")
@@ -37,10 +43,10 @@ async def delete_thread(thread_id):
 
 
 async def get_user():
-    res = requests.get(f"{base_url}/user/{email}")
+    res = requests.get(f"{base_url}/user/{ st.session_state.mail}")
 
     if res.status_code == 500:
-        res = requests.get(f"{base_url}/user/{email}")
+        res = requests.get(f"{base_url}/user/{ st.session_state.mail}")
 
     return json.loads(res.content)
 
@@ -71,18 +77,25 @@ async def add_message(message: dict):
     return res.status_code
 
 
-def get_ai_answer(user_input):
+def get_ai_answer(user_input, topic):
+    user_id = json.loads(asyncio.run(get_user_by_email()))['id']
     body = {
-        "content": user_input,
+        "content": str(user_input),
+        "topic": str(topic),
+        "user_id": str(user_id),
         "role": "User",
-        "thread_id": st.session_state.selected_thread_id
+        "thread_id": str(st.session_state.selected_thread_id)
     }
     res = requests.post(f'{base_url}/chat', json=body)
-
     if res.status_code == 500:
         res = requests.post(f'{base_url}/chat', json=body)
-
-    answer = str(json.loads(res.content)['response'])
+    try:
+        answer = json.loads(res.text)['text']
+    except Exception:
+        try:
+            answer = json.loads(res.text)['response']
+        except Exception:
+            answer = res.text
 
     return answer
 
@@ -94,7 +107,7 @@ def get_ai_answer(user_input):
 def create_thread(chat_name):
     body = {
         "name": chat_name,
-        "userId": email
+        "userId":  st.session_state.mail
     }
     res = requests.post(f'{base_url}/thread', json=body)
 
@@ -107,7 +120,7 @@ def create_thread(chat_name):
 async def auto_create_thread(user_input):
     body = {
         "name": user_input,
-        "userId": email
+        "userId":  st.session_state.mail
     }
     res = requests.post(f'{base_url}/thread/auto_create', json=body)
 
@@ -133,7 +146,7 @@ for index in range(len(emails)):
 
 Authenticator = stauth.Authenticate(credentials, cookie_name='Streamlit', key="abcd", cookie_expiry_days=5)
 
-email, authentication_status, username = Authenticator.login(':green[Login]', 'main')
+st.session_state.mail, authentication_status, username = Authenticator.login(':green[Login]', 'main')
 
 info, info1 = st.columns(2)
 
@@ -186,9 +199,10 @@ elif authentication_status:
 
     if prompt := st.chat_input("What is up?"):
         if not st.session_state.selected_thread_id:
-            new_thread = asyncio.run(auto_create_thread(prompt))
-            st.session_state.selected_thread_id = new_thread['id']
-            threads = asyncio.run(get_threads())
+            with st.spinner("Creating new Chat..."):
+                new_thread = asyncio.run(auto_create_thread(prompt))
+                st.session_state.selected_thread_id = new_thread['id']
+                threads = asyncio.run(get_threads())
 
         status = asyncio.run(add_message({"role": "user", "content": prompt}))
         if status != 200:
@@ -199,10 +213,7 @@ elif authentication_status:
             message_placeholder = st.empty()
             with st.spinner("Thinking..."):
                 identical_user = identical_user[0]
-                question = (
-                    f'I am a student (this is my id: {identical_user["id"]}) and need help about this topic: {st.session_state.selected_topic}'
-                    f'Here is my prompt: {prompt}')
-                answer = get_ai_answer(question)
+                answer = get_ai_answer(prompt, st.session_state.selected_topic)
                 full_response = st.write(answer)
         status = asyncio.run(add_message({"role": "assistant", "content": answer}))
         if status != 200:
