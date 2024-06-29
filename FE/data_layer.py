@@ -109,6 +109,3 @@ class CustomDataLayer(cl_data.BaseDataLayer):
         print(f'INFO: delete_thread() was called for: {thread_id}')
         res = requests.delete(f'http://localhost:4000/thread/delete/{thread_id}')
         deleted_thread_ids.append(thread_id)
-
-    async def get_thread_author(self, thread_id: str):
-        return "admin"

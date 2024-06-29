@@ -1,15 +1,13 @@
 import base64
 import uuid
-
 from fastapi import FastAPI, Depends, HTTPException, status, BackgroundTasks
-from openai import BaseModel
 from sqlalchemy.orm import Session
 import uvicorn
 import base_models
 from BE.Database.SqlLite.database import SessionLocal, engine
 from BE.Database.SqlLite import models
 from literalai.helper import utc_now
-from BE.AI.llm import get_agent, llama3, coding_agent
+from BE.AI.llm import get_agent, llama3
 from BE.Services.mailservice import initialize, add_mails_to_db
 
 app = FastAPI()
