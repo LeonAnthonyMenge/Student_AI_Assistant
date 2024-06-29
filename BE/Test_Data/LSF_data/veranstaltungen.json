@@ -1,0 +1,1012 @@
+[
+  {
+    "modul": "Einführung in die BWL und VWL",
+    "einheiten": [
+      {
+        "name": "Einführung in die BWL und VWL (SL)",
+        "termine": [
+          {
+            "begin": "08:00",
+            "ende": "09:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "10:00",
+            "ende": "11:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Mathematik",
+    "einheiten": [
+      {
+        "name": "Mathematik (SL)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      },
+      {
+        "name": "Mathematik (BÜ)",
+        "termine": [
+          {
+            "begin": "16:00",
+            "ende": "17:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "18:00",
+            "ende": "19:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Einführung in die Wirtschaftsinformatik",
+    "einheiten": [
+      {
+        "name": "Einführung in die Wirtschaftsinformatik (SL)",
+        "termine": [
+          {
+            "begin": "08:00",
+            "ende": "09:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "10:00",
+            "ende": "11:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Grundlagen der Programmierung",
+    "einheiten": [
+      {
+        "name": "Grundlagen der Programmierung (SL)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      },
+      {
+        "name": "Grundlagen der Programmierung (PCÜ)",
+        "termine": [
+          {
+            "begin": "16:00",
+            "ende": "17:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "18:00",
+            "ende": "19:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Angewandte Programmierung",
+    "einheiten": [
+      {
+        "name": "Angewandte Programmierung (SL)",
+        "termine": [
+          {
+            "begin": "08:00",
+            "ende": "09:30",
+            "wochentag": "Mittwoch"
+          },
+          {
+            "begin": "10:00",
+            "ende": "11:30",
+            "wochentag": "Freitag"
+          }
+        ]
+      },
+      {
+        "name": "Angewandte Programmierung (PCÜ)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Rechnernetze",
+    "einheiten": [
+      {
+        "name": "Rechnernetze (SL)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      },
+      {
+        "name": "Rechnernetze (PCÜ)",
+        "termine": [
+          {
+            "begin": "16:00",
+            "ende": "17:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "18:00",
+            "ende": "19:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Grundlagen des Software-Engineering",
+    "einheiten": [
+      {
+        "name": "Grundlagen des Software-Engineering (SL)",
+        "termine": [
+          {
+            "begin": "08:00",
+            "ende": "09:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "10:00",
+            "ende": "11:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      },
+      {
+        "name": "Grundlagen des Software-Engineering (PCÜ)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Webtechnologien",
+    "einheiten": [
+      {
+        "name": "Webtechnologien (SL)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      },
+      {
+        "name": "Webtechnologien (PCÜ)",
+        "termine": [
+          {
+            "begin": "16:00",
+            "ende": "17:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "18:00",
+            "ende": "19:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Geschäftsprozesse und betriebliche Anwendungen",
+    "einheiten": [
+      {
+        "name": "Geschäftsprozesse und betriebliche Anwendungen (SL)",
+        "termine": [
+          {
+            "begin": "08:00",
+            "ende": "09:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "10:00",
+            "ende": "11:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      },
+      {
+        "name": "Geschäftsprozesse und betriebliche Anwendungen (PCÜ)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Modellierung von Anwendungssystemen",
+    "einheiten": [
+      {
+        "name": "Modellierung von Anwendungssystemen (SL)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      },
+      {
+        "name": "Modellierung von Anwendungssystemen (PCÜ)",
+        "termine": [
+          {
+            "begin": "16:00",
+            "ende": "17:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "18:00",
+            "ende": "19:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Verteilte Anwendungen",
+    "einheiten": [
+      {
+        "name": "Verteilte Anwendungen (SL)",
+        "termine": [
+          {
+            "begin": "08:00",
+            "ende": "09:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "10:00",
+            "ende": "11:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      },
+      {
+        "name": "Verteilte Anwendungen (PCÜ)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Grundlagen Projektmanagement",
+    "einheiten": [
+      {
+        "name": "Grundlagen Projektmanagement (SL)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      },
+      {
+        "name": "Grundlagen Projektmanagement (PCÜ)",
+        "termine": [
+          {
+            "begin": "16:00",
+            "ende": "17:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "18:00",
+            "ende": "19:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Statistik",
+    "einheiten": [
+      {
+        "name": "Statistik (SL)",
+        "termine": [
+          {
+            "begin": "08:00",
+            "ende": "09:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "10:00",
+            "ende": "11:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      },
+      {
+        "name": "Statistik (PCÜ)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Unternehmenssoftware",
+    "einheiten": [
+      {
+        "name": "Unternehmenssoftware (SL)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      },
+      {
+        "name": "Unternehmenssoftware (PCÜ)",
+        "termine": [
+          {
+            "begin": "16:00",
+            "ende": "17:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "18:00",
+            "ende": "19:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Unternehmens- und Personalmanagement",
+    "einheiten": [
+      {
+        "name": "Unternehmens- und Personalmanagement (SL)",
+        "termine": [
+          {
+            "begin": "08:00",
+            "ende": "09:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "10:00",
+            "ende": "11:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Investition und Finanzierung",
+    "einheiten": [
+      {
+        "name": "Investition und Finanzierung (SL)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      },
+      {
+        "name": "Investition und Finanzierung (PÜ)",
+        "termine": [
+          {
+            "begin": "16:00",
+            "ende": "17:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "18:00",
+            "ende": "19:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Produktionswirtschaft/Logistik",
+    "einheiten": [
+      {
+        "name": "Produktionswirtschaft/ Logistik (SL)",
+        "termine": [
+          {
+            "begin": "08:00",
+            "ende": "09:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "10:00",
+            "ende": "11:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      },
+      {
+        "name": "Produktionswirtschaft/ Logistik (PCÜ)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Datenmodellierung und Datenbanksysteme",
+    "einheiten": [
+      {
+        "name": "Datenmodellierung und Datenbanksysteme (SL)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      },
+      {
+        "name": "Datenmodellierung und Datenbanksysteme (PCÜ)",
+        "termine": [
+          {
+            "begin": "16:00",
+            "ende": "17:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "18:00",
+            "ende": "19:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Buchführung und Bilanzen",
+    "einheiten": [
+      {
+        "name": "Buchführung und Bilanzen (SL)",
+        "termine": [
+          {
+            "begin": "08:00",
+            "ende": "09:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "10:00",
+            "ende": "11:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      },
+      {
+        "name": "Buchführung und Bilanzen (BÜ)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Controlling",
+    "einheiten": [
+      {
+        "name": "Controlling (SL)",
+        "termine": [
+          {
+            "begin": "16:00",
+            "ende": "17:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "18:00",
+            "ende": "19:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      },
+      {
+        "name": "Controlling (PÜ)",
+        "termine": [
+          {
+            "begin": "08:00",
+            "ende": "09:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "10:00",
+            "ende": "11:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Datenbanktechnologien",
+    "einheiten": [
+      {
+        "name": "Datenbanktechnologien (SL)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      },
+      {
+        "name": "Datenbanktechnologien (PCÜ)",
+        "termine": [
+          {
+            "begin": "16:00",
+            "ende": "17:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "18:00",
+            "ende": "19:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Kommunikationsverhalten",
+    "einheiten": [
+      {
+        "name": "Kommunikationsverhalten (PÜ)",
+        "termine": [
+          {
+            "begin": "08:00",
+            "ende": "09:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "10:00",
+            "ende": "11:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Präsentation und Moderation",
+    "einheiten": [
+      {
+        "name": "Präsentation und Moderation (PÜ)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Konfliktmanagement",
+    "einheiten": [
+      {
+        "name": "Konfliktmanagement (PÜ)",
+        "termine": [
+          {
+            "begin": "16:00",
+            "ende": "17:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "18:00",
+            "ende": "19:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Informationssicherheit",
+    "einheiten": [
+      {
+        "name": "Informationssicherheit (PCÜ)",
+        "termine": [
+          {
+            "begin": "08:00",
+            "ende": "09:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "10:00",
+            "ende": "11:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Programmierung mobiler Anwendungen",
+    "einheiten": [
+      {
+        "name": "Programmierung mobiler Anwendungen (PCÜ)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Komponentenbasierte Entwicklung",
+    "einheiten": [
+      {
+        "name": "Komponentenbasierte Entwicklung (PCÜ)",
+        "termine": [
+          {
+            "begin": "16:00",
+            "ende": "17:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "18:00",
+            "ende": "19:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Marketing",
+    "einheiten": [
+      {
+        "name": "Marketing (PÜ)",
+        "termine": [
+          {
+            "begin": "08:00",
+            "ende": "09:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "10:00",
+            "ende": "11:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Wirtschaftsrecht",
+    "einheiten": [
+      {
+        "name": "Wirtschaftsrecht (PÜ)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Branchenspezifische BWL (z.B. Banken, Handel)",
+    "einheiten": [
+      {
+        "name": "Branchenspezifische BWL (z.B. Banken, Handel) (PÜ)",
+        "termine": [
+          {
+            "begin": "16:00",
+            "ende": "17:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "18:00",
+            "ende": "19:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Fallstudien zur Unternehmensführung",
+    "einheiten": [
+      {
+        "name": "Fallstudien zur Unternehmensführung",
+        "termine": [
+          {
+            "begin": "08:00",
+            "ende": "09:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "10:00",
+            "ende": "11:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Informationswirtschaft",
+    "einheiten": [
+      {
+        "name": "Informationswirtschaft (PÜ)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Consultingmethoden",
+    "einheiten": [
+      {
+        "name": "Consultingmethoden (PÜ)",
+        "termine": [
+          {
+            "begin": "16:00",
+            "ende": "17:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "18:00",
+            "ende": "19:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Anwendungen künstlicher Intelligenz",
+    "einheiten": [
+      {
+        "name": "Anwendungen künstlicher Intelligenz (PÜ)",
+        "termine": [
+          {
+            "begin": "08:00",
+            "ende": "09:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "10:00",
+            "ende": "11:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Software Ergonomie",
+    "einheiten": [
+      {
+        "name": "Software Ergonomie (PCÜ)",
+        "termine": [
+          {
+            "begin": "12:00",
+            "ende": "13:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "14:00",
+            "ende": "15:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Ausgewählte Datenbankkonzepte/ -techniken",
+    "einheiten": [
+      {
+        "name": "Ausgewählte Datenbankkonzepte/ -techniken (PCÜ)",
+        "termine": [
+          {
+            "begin": "16:00",
+            "ende": "17:30",
+            "wochentag": "Montag"
+          },
+          {
+            "begin": "18:00",
+            "ende": "19:30",
+            "wochentag": "Mittwoch"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "modul": "Rechnungswesen",
+    "einheiten": [
+      {
+        "name": "Rechnungswesen (PÜ)",
+        "termine": [
+          {
+            "begin": "08:00",
+            "ende": "09:30",
+            "wochentag": "Dienstag"
+          },
+          {
+            "begin": "10:00",
+            "ende": "11:30",
+            "wochentag": "Donnerstag"
+          }
+        ]
+      }
+    ]
+  }
+]
