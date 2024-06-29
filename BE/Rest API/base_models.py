@@ -31,3 +31,6 @@ class AI_Message(BaseModel):
     user_id: str
     role: str
     thread_id: str
+
+class CourseList(BaseModel):
+    courses: List

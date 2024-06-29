@@ -4,6 +4,9 @@ import requests
 import streamlit as st
 import streamlit_authenticator as stauth
 import asyncio
+
+from rpds import List
+
 from streamlit_signup import sign_up, get_users
 
 base_url = 'http://localhost:4000'
@@ -127,6 +130,18 @@ async def auto_create_thread(user_input):
 
     return json.loads(res.content)
 
+async def get_optimal_course_plan(courses: List):
+    body = {
+        "courses": courses
+    }
+    res = requests.post(f'{base_url}/get_course_plan', json=body)
+    return res.json()['text']
+
+async def get_module_names():
+    res = requests.get(f'{base_url}/module/names')
+    print(type(res.json()))
+    return res.json()
+
 def get_moodle_prompt(prompt: str, user_id: str) -> str:
     return f"Try using my user_id: {user_id} '2,5' {prompt} "
 
@@ -154,7 +169,7 @@ if not authentication_status:
     sign_up()
 elif authentication_status:
     threads = asyncio.run(get_threads())
-    if len(st.session_state.messages) == 0:
+    if len(st.session_state.messages) == 0 and not st.session_state.selected_topic == "LSF":
         st.success("Chat with me!")
 
     # Sidebar
@@ -164,14 +179,14 @@ elif authentication_status:
 
         # Help Agent to use the right tools
         st.session_state.selected_topic = st.selectbox(
-            "select a topic:",
-            ("general help", "coding", "sql", "psychology", "moodle"),
+            "Select a topic:",
+            ("General help", "Coding", "SQL", "PDF", "Moodle", "LSF"),
             index=0
         )
 
         for thread in threads:
             with st.container(border=False):
-                col1, col2 = st.columns(2)
+                col1, col2 = st.columns([3, 1])
                 with col1:
                     if st.button(thread["name"], use_container_width=True, key=f'thread_{thread["id"]}'):
                         get_messages(thread["id"])
@@ -191,31 +206,42 @@ elif authentication_status:
             else:
                 st.error("Please enter a chat name.")
 
-    # Chat Logic: https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
+    if st.session_state.selected_topic == "LSF":
+        st.title("Select courses")
+        options = st.multiselect("Courses", asyncio.run(get_module_names()))
+        if len(options) > 1:
+            show = False
+        else:
+            show = True
+        if st.button("Submit", type="primary", disabled=show, use_container_width=True):
+            with st.spinner("Calculating..."):
+                st.write(asyncio.run(get_optimal_course_plan(options)))
+    else:
+        # Chat Logic: https://docs.streamlit.io/develop/tutorials/llms/build-conversational-apps
+        for message in st.session_state.messages:
+            with st.chat_message(message["role"]):
+                st.markdown(message["content"])
 
-    if prompt := st.chat_input("What is up?"):
-        if not st.session_state.selected_thread_id:
-            with st.spinner("Creating new Chat..."):
-                new_thread = asyncio.run(auto_create_thread(prompt))
-                st.session_state.selected_thread_id = new_thread['id']
-                threads = asyncio.run(get_threads())
+        if prompt := st.chat_input("What is up?"):
+            if not st.session_state.selected_thread_id:
+                with st.spinner("Creating new Chat..."):
+                    new_thread = asyncio.run(auto_create_thread(prompt))
+                    st.session_state.selected_thread_id = new_thread['id']
+                    threads = asyncio.run(get_threads())
 
-        status = asyncio.run(add_message({"role": "user", "content": prompt}))
-        if status != 200:
-            st.warning("Could not save message")
-        with st.chat_message("user"):
-            st.markdown(prompt)
-        with st.chat_message("assistant"):
-            message_placeholder = st.empty()
-            with st.spinner("Thinking..."):
-                user_id = json.loads(asyncio.run(get_user_by_email()))['id']
-                if st.session_state.selected_topic == "moodle":
-                    prompt = get_moodle_prompt(prompt, user_id)
-                answer = get_ai_answer(prompt, st.session_state.selected_topic)
-                full_response = st.write(answer)
-        status = asyncio.run(add_message({"role": "assistant", "content": answer}))
-        if status != 200:
-            st.warning("Could not save message")
+            status = asyncio.run(add_message({"role": "user", "content": prompt}))
+            if status != 200:
+                st.warning("Could not save message")
+            with st.chat_message("user"):
+                st.markdown(prompt)
+            with st.chat_message("assistant"):
+                message_placeholder = st.empty()
+                with st.spinner("Thinking..."):
+                    user_id = json.loads(asyncio.run(get_user_by_email()))['id']
+                    if st.session_state.selected_topic == "Moodle":
+                        prompt = get_moodle_prompt(prompt, user_id)
+                    answer = get_ai_answer(prompt, st.session_state.selected_topic)
+                    full_response = st.write(answer)
+            status = asyncio.run(add_message({"role": "assistant", "content": answer}))
+            if status != 200:
+                st.warning("Could not save message")
