@@ -5,7 +5,7 @@ import requests
 import streamlit as st
 import streamlit_authenticator as stauth
 import asyncio
-from streamlit_signup_test import sign_up, get_users
+from streamlit_signup import sign_up, get_users
 
 base_url = 'http://localhost:4000'
 if 'messages' not in st.session_state:
@@ -47,7 +47,6 @@ async def get_user():
 
     if res.status_code == 500:
         res = requests.get(f"{base_url}/user/{ st.session_state.mail}")
-
     return json.loads(res.content)
 
 
@@ -129,6 +128,8 @@ async def auto_create_thread(user_input):
 
     return json.loads(res.content)
 
+def get_moodle_prompt(prompt: str, user_id: str) -> str:
+    return f"Try using my user_id: {user_id} '2,5' {prompt} "
 
 users = asyncio.run(get_users())
 emails = []
@@ -154,7 +155,6 @@ if not authentication_status:
     sign_up()
 elif authentication_status:
     threads = asyncio.run(get_threads())
-    identical_user = asyncio.run(get_users())
     if len(st.session_state.messages) == 0:
         st.success("Chat with me!")
 
@@ -166,7 +166,7 @@ elif authentication_status:
         # Help Agent to use the right tools
         st.session_state.selected_topic = st.selectbox(
             "select a topic:",
-            ("general help", "coding", "sql", "psychology"),
+            ("general help", "coding", "sql", "psychology", "moodle"),
             index=0
         )
 
@@ -212,7 +212,9 @@ elif authentication_status:
         with st.chat_message("assistant"):
             message_placeholder = st.empty()
             with st.spinner("Thinking..."):
-                identical_user = identical_user[0]
+                user_id = json.loads(asyncio.run(get_user_by_email()))['id']
+                if st.session_state.selected_topic == "moodle":
+                    prompt = get_moodle_prompt(prompt, user_id)
                 answer = get_ai_answer(prompt, st.session_state.selected_topic)
                 full_response = st.write(answer)
         status = asyncio.run(add_message({"role": "assistant", "content": answer}))

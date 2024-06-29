@@ -158,6 +158,7 @@ async def delete_thread(thread_id: str, db: Session = Depends(get_db)):
 
 @app.post('/chat')
 async def post_message(message: base_models.AI_Message, db: Session = Depends(get_db)):
+    print(message.content)
     messages = db.query(models.Message).filter(models.Message.threadId == message.thread_id).all()
     chat_history = []
     for mes in messages:
@@ -165,6 +166,10 @@ async def post_message(message: base_models.AI_Message, db: Session = Depends(ge
 
     if len(chat_history) >= 3:
         chat_history = chat_history[-3:]
+    if message.topic == 'moodle':
+        message_split = message.content.split("'2,5'")
+        for entry in message_split:
+            chat_history.append(str(f"{{role: user, content: {entry}}}"))
 
     chat_history_str = " ".join(chat_history)
     agent = get_agent(message.topic)
