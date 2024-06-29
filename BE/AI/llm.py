@@ -162,14 +162,13 @@ moodle_agent = ReActAgent.from_tools(tools=moodle_tools, llm=llama3, verbose=Tru
 
 
 def get_agent(agent_name: str):
-    if agent_name == "coding":
+    if agent_name == "Coding":
         return coding_agent
-    elif agent_name == "psychology":
+    elif agent_name == "PDF":
         return pdf_ai
-    elif agent_name == "sql":
+    elif agent_name == "SQL":
         return coding_agent
-    elif agent_name == "moodle":
+    elif agent_name == "Moodle":
         return moodle_agent
     else:
         return general_agent
-

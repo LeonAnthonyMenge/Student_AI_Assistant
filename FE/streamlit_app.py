@@ -17,7 +17,7 @@ if 'selected_thread_id' not in st.session_state:
     st.session_state.selected_thread_id = None
 
 if 'selected_topic' not in st.session_state:
-    st.session_state.selected_topic = "general help"
+    st.session_state.selected_topic = "General help"
 
 if 'mail' not in st.session_state:
     st.session_state.mail = ""
