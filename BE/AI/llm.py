@@ -1,5 +1,5 @@
 import torch
-from BE.AI.prompts import general_prompt, coding_prompt
+from BE.AI.prompts import general_prompt, coding_prompt, moodle_prompt
 from BE.Services.Pdf_service.query_data import pdf_ai
 from llama_index.llms.ollama import Ollama
 from llama_index.core.tools import FunctionTool
@@ -7,6 +7,7 @@ from llama_index.core.agent import ReActAgent
 from langchain_community.utilities import WikipediaAPIWrapper, StackExchangeAPIWrapper
 from langchain_community.tools import YouTubeSearchTool, DuckDuckGoSearchRun, WikipediaQueryRun
 from langchain_experimental.utilities import PythonREPL
+from BE.Services.moodle_service import moodle_exercises
 import requests
 from BE.Database.chromadb.chroma_database import query_email_collection
 #Apple Silicon Chip uses: mps
@@ -127,6 +128,12 @@ vektor_based_emaildb = FunctionTool.from_defaults(
 
 )
 
+moodle_exercises = FunctionTool.from_defaults(
+    moodle_exercises,
+    name="moodle_exercises",
+    description="A tool for loading uncompleted exercises from moodle. Takes userId as input."
+)
+
 
 general_tools = [
     vektor_based_emaildb,
@@ -147,13 +154,21 @@ coding_tools = [
 
 coding_agent = ReActAgent.from_tools(tools=coding_tools, llm=codellama, verbose=True, context=coding_prompt, max_iterations=30)
 
+moodle_tools = [
+    moodle_exercises
+]
+
+moodle_agent = ReActAgent.from_tools(tools=moodle_tools, llm=llama3, verbose=True, context=moodle_prompt, max_iterations=30)
+
+
 def get_agent(agent_name: str):
-    if agent_name == "coding":
+    if agent_name == "Coding":
         return coding_agent
-    elif agent_name == "psychology":
+    elif agent_name == "PDF":
         return pdf_ai
-    elif agent_name == "sql":
+    elif agent_name == "SQL":
         return coding_agent
+    elif agent_name == "Moodle":
+        return moodle_agent
     else:
         return general_agent
-

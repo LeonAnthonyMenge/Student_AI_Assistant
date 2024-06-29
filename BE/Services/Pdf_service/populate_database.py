@@ -9,7 +9,7 @@ from get_embedding_function import get_embedding_function
 from langchain_community.vectorstores import Chroma
 
 CHROMA_PATH = "../../storage/chroma_pdf"
-DATA_PATH = "../../Pdf_data"
+DATA_PATH = "../../Test_Data/Pdf_data"
 def main():
 
     # Check if the database should be cleared (using the --clear flag).
