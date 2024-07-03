@@ -35,10 +35,8 @@ def validate_username(username):
     return False
 
 async def get_users():
-    print('213')
     res = requests.get(f'{base_url}/user')
     users = json.loads(res.content)
-    print('users')
     return users
 async def add_user(email: str, username: str, password: str, htw_password: str):
     body = {
@@ -48,7 +46,6 @@ async def add_user(email: str, username: str, password: str, htw_password: str):
         "htw_password": htw_password
     }
     res = requests.post(f"{base_url}/user/registrate", json=body)
-    print(res.status_code)
     return res.status_code
 
 
@@ -56,7 +53,7 @@ def sign_up():
     with (st.form(key='signup', clear_on_submit=True)):
         st.subheader(':green[Sign Up]')
         email = st.text_input(':blue[HTW-Email]', placeholder='Enter Your Email')
-        username = st.text_input(':blue[Username]', placeholder='Enter Your Username')
+        username = st.text_input(':blue[Matrikelnummer]', placeholder='s0123456')
         htw_password = st.text_input(':blue[HTW-Password]', placeholder='Enter Your HTW-Password', type='password')
         password1 = st.text_input(':blue[Password]', placeholder='Enter Your Password', type='password')
         password2 = st.text_input(':blue[Confirm Password]', placeholder='Confirm Your Password', type='password')

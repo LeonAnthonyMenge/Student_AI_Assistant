@@ -1,10 +1,8 @@
 # https://docs.trychroma.com/
 
-import chromadb
 from chromadb.utils import embedding_functions
+import chromadb
 
-# Configure Chroma to save and load from your local machine. Data will be persisted automatically
-# and loaded on start (if it exists).
 client = chromadb.PersistentClient(path="../storage/chromadb")
 
 # Here the standard embeddings are used. Other embeddings can be used: https://docs.trychroma.com/embeddings
@@ -30,10 +28,13 @@ def add_data(documents, metadatas, ids, name):
 
 
 def query_email_collection(query_texts, n_results, name):
-    collection = client.get_or_create_collection(name=name, embedding_function=sentence_transformer_ef)
+    collection = client.get_collection(name=name, embedding_function=sentence_transformer_ef)
     # Query the collection
     results = collection.query(
         query_texts=query_texts,
         n_results=n_results
     )
     return results
+
+def get_chroma_client(name: str):
+    return client.get_or_create_collection(name=name, embedding_function=sentence_transformer_ef)

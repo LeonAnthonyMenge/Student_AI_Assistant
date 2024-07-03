@@ -1,8 +1,6 @@
 from imbox import Imbox
 import datetime
-import chromadb
 import uuid
-import bcrypt
 import email
 from BE.Database.SqlLite import models
 from BE.Database.chromadb.chroma_database import add_data
@@ -45,7 +43,7 @@ def add_mails_to_db(user):
         e_mail = user.htw_mail
 
         imbox = Imbox(mail_server, username=e_mail, password=pw, ssl=True, ssl_context=None, starttls=False)
-        inbox_messages_received_after = imbox.messages(date__gt=datetime.date(2024, 5, 15))
+        inbox_messages_received_after = imbox.messages(date__gt=datetime.date(2024, 6, 20))
 
         doc_list = []
         id_list = []
@@ -70,16 +68,10 @@ def add_mails_to_db(user):
                     content = get_content(message)
                     doc_list.append(content)
                     id_list.append(str(uuid.uuid4()))
-                else:
-                    print(f'Already in: {message["Message-ID"]}')
+
             except Exception as e:
                 print(f'Error processing message {i}: {e}')
         add_data(doc_list, metadata_list, id_list, user.id)
 
     except Exception as e:
         print(f'An error occurred in add_mails_to_db: {e}')
-
-# results = collection.query(
-#    query_texts=["Informationen zum Praktikum"],
-#    n_results=10
-# )
